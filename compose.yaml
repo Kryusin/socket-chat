@@ -1,0 +1,22 @@
+services:
+  # フロントエンドサービス
+  sc_web:
+    container_name: sc_web
+    build:
+      context: ./web  # フロントエンドのDockerfileが存在するディレクトリ
+      dockerfile: ../dockerfile/scWeb.Dockerfile
+    volumes:
+      - ./web:/web
+    tty: true
+    ports:
+      - "3000:3000"  # コンテナのポート80をホストのポート3000にマッピング
+      - "5555:5555"  # コンテナのポート5555をホストのポート5555にマッピング
+
+  sc_db:
+    image: postgres
+    environment:
+      POSTGRES_USER: user # データベースのユーザー名
+      POSTGRES_PASSWORD: pass # データベースのパスワード
+      POSTGRES_DB: sc_db # 初期に作成するデータベース名
+    ports:
+      - "5432:5432" # localhost:15432をコンテナの5432にマッピング
